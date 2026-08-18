@@ -1,0 +1,12 @@
+# 가상환경 및 파이참
+.venv/
+.idea/
+__pycache__/
+
+# 로그
+nohup.out
+
+# 보안 (절대 안 올라가게 막기!)
+.env
+kakao_code.json
+
