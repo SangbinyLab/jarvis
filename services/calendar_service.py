@@ -18,7 +18,7 @@ WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"]
 
 
 def get_schedule(start_time, end_time):
-    """지정된 시간 범위의 캘린더 일정을 (날짜/요일 + 시간 + 일정명) 형태로 가져오는 함수"""
+    """지정된 시간 범위의 캘린더 일정을 (날짜/요일 + 시간 + 일정명 + 장소) 형태로 가져오는 함수"""
     print("🚀 iCloud 캘린더에 접속 중...")
 
     client = caldav.DAVClient(url=CALDAV_URL)
@@ -37,6 +37,10 @@ def get_schedule(start_time, end_time):
         component = event.get_icalendar_component()
         if component and component.get('summary'):
             summary = str(component.get('summary'))
+
+            # 🚀 [수정됨] 위치(Location) 데이터 파싱 추가!
+            location_prop = component.get('location')
+            location_str = str(location_prop) if location_prop else ""
 
             dtstart_prop = component.get('dtstart')
             dtend_prop = component.get('dtend')
@@ -66,6 +70,10 @@ def get_schedule(start_time, end_time):
                     weekday = WEEKDAYS[dt_start.weekday()]
                     time_str = f"[{dt_start.strftime('%m/%d')}({weekday}) 종일] "
 
-            schedule_list.append(f"{time_str}{summary}")
+            # 🚀 [수정됨] 장소 정보가 있으면 문자열 끝에 추가해서 MC 엔진이 읽을 수 있게 함
+            if location_str:
+                schedule_list.append(f"{time_str}{summary} (장소: {location_str})")
+            else:
+                schedule_list.append(f"{time_str}{summary}")
 
     return schedule_list

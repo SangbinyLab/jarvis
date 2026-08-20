@@ -32,7 +32,7 @@ print("🤖 Jarvis Master Scheduler가 가동되었습니다. (백그라운드 �
 schedule.every().sunday.at("21:00").do(run_task, "weekly_briefing.py")
 
 # 2. 매일(월~일) 22시 정각: 일일 브리핑
-schedule.every().day.at("22:00").do(run_task, "daily_briefing.py")
+schedule.every().day.at("13:29").do(run_task, "daily_briefing.py")
 
 # 3. 매일 매시간 정각(00분): 시간별 임박 일정 브리핑
 schedule.every().hour.at(":00").do(run_task, "hourly_briefing.py")
